@@ -26,10 +26,9 @@ public class WindWakerProcedureMixin
             return;
 
         BurntModVariables.MapVariables mvSC = BurntModVariables.MapVariables.get(world);
-        var player = Minecraft.getInstance().gameRenderer.getMainCamera();
 
-        var wind = UnifiedWind.getWind(player.getPosition().x, player.getPosition().y, player.getPosition().z);
-        double newSpeed = wind.length();
+        var wind = UnifiedWind.getWind(0, 63, 0);
+        double newSpeed = wind.length() * 20;
         double newAngle = Math.atan2(wind.z, wind.x);
         boolean changedSC = false;
 
