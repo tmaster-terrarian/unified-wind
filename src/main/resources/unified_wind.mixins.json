@@ -1,0 +1,21 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "dev.bscit.unified_wind.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "ParticleRainMixin",
+        "WindWakerProcedureMixin"
+    ],
+    "client": [
+        "accessor.ParticleAccessor",
+        "client.BurntParticleMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "plugin": "dev.bscit.unified_wind.MixinConfigPlugin",
+    "overwrites": {
+        "requireAnnotations": true
+    }
+}
