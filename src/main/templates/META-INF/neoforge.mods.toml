@@ -73,6 +73,11 @@ ordering = "NONE"
 side = "BOTH"
 
 [[dependencies."${mod_id}"]]
+modId = "immersivewind"
+type = "discouraged"
+side = "BOTH"
+
+[[dependencies."${mod_id}"]]
 modId = "particlerain"
 type = "optional"
 versionRange = "${particlerain_version_range}"
