@@ -16,6 +16,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import org.joml.SimplexNoise;
 import org.joml.Vector3f;
 import org.slf4j.Logger;
 
@@ -46,12 +47,22 @@ public class UnifiedWind
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
 
-        if(CommonConfig.compatBurntEnabled && ModList.get().isLoaded("burnt"))
-            LOGGER.info("Compat for Burnt is active");
-        if(CommonConfig.compatParticleRainEnabled && ModList.get().isLoaded("particlerain"))
-            LOGGER.info("Compat for Particle Rain is active");
+        LOGGER.info(logCompat(CommonConfig.compatBurntEnabled, "burnt", "Burnt"));
+        LOGGER.info(logCompat(CommonConfig.compatParticleRainEnabled, "particlerain", "Particle Rain"));
+        LOGGER.info(logCompat(CommonConfig.compatSootyChimneysEnabled, "sootychimneys", "Sooty Chimneys"));
     }
 
+    private static String logCompat(boolean configCondition, String modId, String modName)
+    {
+        if(ModList.get().isLoaded(modId))
+            return configCondition
+                ? String.format("Enabling compat for %s (%s) [mod is present and config is enabled]", modName, modId)
+                : String.format("Not enabling compat for %s (%s) [mod is present but config is disabled]", modName, modId);
+        else
+            return String.format("Not enabling compat for %s (%s) [mod is not present]", modName, modId);
+    }
+
+    // based on particle rain
     // particle rain's wind is very very cool
     public static Vector3f getWind(double x, double y, double z) {
         ClientLevel level = Minecraft.getInstance().level;
@@ -63,7 +74,17 @@ public class UnifiedWind
             float variance = CommonConfig.windStrengthVariance;
             float strength = CommonConfig.windStrength;
             float multiplier = CommonConfig.windYLevelAdjustment ? yLevelWindMultiplier(y) : 0.0F;
-            return new Vector3f((Mth.sin((float)(x * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F, 0.0F, (Mth.sin((float)(z * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F);
+            float dir = (float)(Math.PI * 4 * SimplexNoise.noise(
+                (float)x * CommonConfig.windDirectionVariance,
+                0,
+                (float)z * CommonConfig.windDirectionVariance,
+                level.getGameTime() * 0.0001f)
+            );
+            return new Vector3f(
+                Mth.cos(dir) * ((Mth.sin((float)(x * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F),
+                0.0F,
+                Mth.sin(dir) * ((Mth.sin((float)(z * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F)
+            );
         }
     }
 
@@ -90,7 +111,6 @@ public class UnifiedWind
         {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
     }
 }

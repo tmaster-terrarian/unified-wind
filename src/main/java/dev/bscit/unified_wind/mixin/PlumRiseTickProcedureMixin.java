@@ -37,8 +37,8 @@ public class PlumRiseTickProcedureMixin
             if(e != null && e.getType() == EntityType.ITEM_DISPLAY && !e.isRemoved())
             {
                 Vector3f wind = UnifiedWind.getWind(e.getX(), e.getY(), e.getZ());
-                double dx = wind.x;
-                double dz = wind.z;
+                double dx = wind.x * 10;
+                double dz = wind.z * 10;
 
                 Set<String> tags = e.getTags();
                 if(tags.contains("burnt_any_plume") && ((!tags.contains("far_burnt_plume") || gameTime % 2L == 0L) && (!tags.contains("distant_burnt_plume") || gameTime % 4L == 0L)))

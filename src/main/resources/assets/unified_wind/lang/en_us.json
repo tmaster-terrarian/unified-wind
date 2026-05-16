@@ -4,9 +4,11 @@
     "unified_wind.configuration.wind.strength_variance": "Strength Variance",
     "unified_wind.configuration.wind.gust_frequency": "Gust Frequency",
     "unified_wind.configuration.wind.modulation_speed": "Modulation Speed",
+    "unified_wind.configuration.wind.direction_variance": "Direction Variance",
     "unified_wind.configuration.wind.y_level_adjustment": "Y Level Adjustment",
 
     "unified_wind.configuration.compat": "Compat",
     "unified_wind.configuration.compat.burnt": "Burnt",
-    "unified_wind.configuration.compat.particle_rain": "Particle Rain"
+    "unified_wind.configuration.compat.particle_rain": "Particle Rain",
+    "unified_wind.configuration.compat.sooty_chimneys": "Sooty Chimneys"
 }

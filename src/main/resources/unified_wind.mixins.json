@@ -5,7 +5,9 @@
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "ParticleRainMixin",
-        "WindWakerProcedureMixin"
+        "WindWakerProcedureMixin",
+        "sootychimneys.WindDataMixin",
+        "sootychimneys.WindMixin"
     ],
     "client": [
         "accessor.ParticleAccessor",

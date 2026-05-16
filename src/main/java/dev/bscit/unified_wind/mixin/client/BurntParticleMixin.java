@@ -40,7 +40,7 @@ public class BurntParticleMixin
             return;
         var p = (ParticleAccessor)this;
         Vector3f wind = UnifiedWind.getWind(p.unifiedWind$getX(), p.unifiedWind$getY(), p.unifiedWind$getZ()).mul(0.05f);
-        p.unifiedWind$setXd(wind.x);
-        p.unifiedWind$setZd(wind.z);
+        p.unifiedWind$setXd(p.unifiedWind$getXd() + 0.2 * (wind.x - p.unifiedWind$getXd()));
+        p.unifiedWind$setZd(p.unifiedWind$getZd() + 0.2 * (wind.z - p.unifiedWind$getZd()));
     }
 }
