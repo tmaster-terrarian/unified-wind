@@ -1,6 +1,6 @@
 package dev.bscit.unified_wind.mixin;
 
-import dev.bscit.unified_wind.Config;
+import dev.bscit.unified_wind.CommonConfig;
 import dev.bscit.unified_wind.UnifiedWind;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
@@ -9,7 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.LevelAccessor;
 import net.pixelbank.burnt.configuration.BurntBasicConfigConfiguration;
-import net.pixelbank.burnt.network.BurntModVariables;
 import net.pixelbank.burnt.procedures.PlumRiseTickProcedure;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,7 +27,7 @@ public class PlumRiseTickProcedureMixin
     @Inject(method = "execute", cancellable = true, at = @At(value = "HEAD"))
     private static void unifiedWind$execute(LevelAccessor world, CallbackInfo ci)
     {
-        if(!Config.compatBurntEnabled || !BurntBasicConfigConfiguration.DISTANT_SMOKE.get() || !world.isClientSide() || !(world instanceof ServerLevel level))
+        if(!CommonConfig.compatBurntEnabled || !BurntBasicConfigConfiguration.DISTANT_SMOKE.get() || !world.isClientSide() || !(world instanceof ServerLevel level))
             return;
 
         long gameTime = level.getLevelData().getGameTime();

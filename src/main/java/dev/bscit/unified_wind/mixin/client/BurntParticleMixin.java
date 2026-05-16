@@ -1,6 +1,6 @@
 package dev.bscit.unified_wind.mixin.client;
 
-import dev.bscit.unified_wind.Config;
+import dev.bscit.unified_wind.CommonConfig;
 import dev.bscit.unified_wind.UnifiedWind;
 import dev.bscit.unified_wind.mixin.accessor.ParticleAccessor;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
@@ -36,7 +36,7 @@ public class BurntParticleMixin
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void unifiedWind$injectTick(CallbackInfo ci)
     {
-        if(!Config.compatBurntEnabled)
+        if(!CommonConfig.compatBurntEnabled)
             return;
         var p = (ParticleAccessor)this;
         Vector3f wind = UnifiedWind.getWind(p.unifiedWind$getX(), p.unifiedWind$getY(), p.unifiedWind$getZ()).mul(0.05f);

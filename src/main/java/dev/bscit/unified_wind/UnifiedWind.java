@@ -3,10 +3,7 @@ package dev.bscit.unified_wind;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,7 +19,6 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.joml.Vector3f;
 import org.slf4j.Logger;
 
-// The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(UnifiedWind.MODID)
 public class UnifiedWind
 {
@@ -31,7 +27,7 @@ public class UnifiedWind
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
-    public UnifiedWind(IEventBus modEventBus, ModContainer modContainer)
+    public UnifiedWind(IEventBus modEventBus, ModContainer modContainer, Dist dist)
     {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -42,7 +38,7 @@ public class UnifiedWind
         NeoForge.EVENT_BUS.register(this);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -50,9 +46,9 @@ public class UnifiedWind
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
 
-        if(Config.compatBurntEnabled && ModList.get().isLoaded("burnt"))
+        if(CommonConfig.compatBurntEnabled && ModList.get().isLoaded("burnt"))
             LOGGER.info("Compat for Burnt is active");
-        if(Config.compatParticleRainEnabled && ModList.get().isLoaded("particlerain"))
+        if(CommonConfig.compatParticleRainEnabled && ModList.get().isLoaded("particlerain"))
             LOGGER.info("Compat for Particle Rain is active");
     }
 
@@ -62,11 +58,11 @@ public class UnifiedWind
         if (level == null) {
             return new Vector3f();
         } else {
-            float frequency = Config.windGustFrequency;
-            float shift = (float)level.getGameTime() * Config.windModulationSpeed;
-            float variance = Config.windStrengthVariance;
-            float strength = Config.windStrength;
-            float multiplier = Config.windYLevelAdjustment ? yLevelWindMultiplier(y) : 0.0F;
+            float frequency = CommonConfig.windGustFrequency;
+            float shift = (float)level.getGameTime() * CommonConfig.windModulationSpeed;
+            float variance = CommonConfig.windStrengthVariance;
+            float strength = CommonConfig.windStrength;
+            float multiplier = CommonConfig.windYLevelAdjustment ? yLevelWindMultiplier(y) : 0.0F;
             return new Vector3f((Mth.sin((float)(x * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F, 0.0F, (Mth.sin((float)(z * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F);
         }
     }

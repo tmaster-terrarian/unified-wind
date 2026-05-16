@@ -1,5 +1,12 @@
 {
-    "itemGroup.unified_wind": "Example Mod Tab",
-    "block.unified_wind.example_block": "Example Block",
-    "item.unified_wind.example_item": "Example Item"
+    "unified_wind.configuration.wind": "Wind",
+    "unified_wind.configuration.wind.strength": "Strength",
+    "unified_wind.configuration.wind.strength_variance": "Strength Variance",
+    "unified_wind.configuration.wind.gust_frequency": "Gust Frequency",
+    "unified_wind.configuration.wind.modulation_speed": "Modulation Speed",
+    "unified_wind.configuration.wind.y_level_adjustment": "Y Level Adjustment",
+
+    "unified_wind.configuration.compat": "Compat",
+    "unified_wind.configuration.compat.burnt": "Burnt",
+    "unified_wind.configuration.compat.particle_rain": "Particle Rain"
 }

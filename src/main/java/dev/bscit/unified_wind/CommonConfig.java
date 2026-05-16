@@ -8,26 +8,38 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 // An example config class. This is not required, but it's a good idea to have one to keep your config organized.
 // Demonstrates how to use Neo's config APIs
 @EventBusSubscriber(modid = UnifiedWind.MODID)
-public class Config
+public class CommonConfig
 {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
     private static final ModConfigSpec.DoubleValue WIND_STRENGTH = BUILDER
+        .translation(String.format("%s.configuration.wind.strength", UnifiedWind.MODID))
         .defineInRange("wind.strength", 0.4, 0, Double.MAX_VALUE);
+
     private static final ModConfigSpec.DoubleValue WIND_STRENGTH_VARIANCE = BUILDER
+        .translation(String.format("%s.configuration.wind.strength_variance", UnifiedWind.MODID))
         .defineInRange("wind.strengthVariance", 0.3, 0, Double.MAX_VALUE);
+
     private static final ModConfigSpec.DoubleValue WIND_GUST_FREQUENCY = BUILDER
+        .translation(String.format("%s.configuration.wind.gust_frequency", UnifiedWind.MODID))
         .defineInRange("wind.gustFrequency", 0.2, 0, Double.MAX_VALUE);
+
     private static final ModConfigSpec.DoubleValue WIND_MODULATION_SPEED = BUILDER
+        .translation(String.format("%s.configuration.wind.modulation_speed", UnifiedWind.MODID))
         .defineInRange("wind.modulationSpeed", 0.04, 0, Double.MAX_VALUE);
+
     private static final ModConfigSpec.BooleanValue WIND_Y_LEVEL_ADJUSTMENT = BUILDER
+        .translation(String.format("%s.configuration.wind.y_level_adjustment", UnifiedWind.MODID))
+        .comment("Makes wind stronger at higher elevations, and weaker at lower elevations")
         .define("wind.yLevelAdjustment", true);
 
     private static final ModConfigSpec.BooleanValue COMPAT_BURNT_ENABLED = BUILDER
+        .translation(String.format("%s.configuration.compat.burnt", UnifiedWind.MODID))
         .comment("When enabled, Burnt's smoke and ember particles will follow unified wind.")
         .define("compat.burnt", true);
 
     private static final ModConfigSpec.BooleanValue COMPAT_PARTICLE_RAIN_ENABLED = BUILDER
+        .translation(String.format("%s.configuration.compat.particle_rain", UnifiedWind.MODID))
         .comment("When enabled, Particle Rain's weather particles will follow unified wind.")
         .define("compat.particleRain", true);
 

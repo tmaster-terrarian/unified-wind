@@ -1,6 +1,6 @@
 package dev.bscit.unified_wind.mixin;
 
-import dev.bscit.unified_wind.Config;
+import dev.bscit.unified_wind.CommonConfig;
 import dev.bscit.unified_wind.UnifiedWind;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
@@ -20,7 +20,7 @@ public class ParticleRainMixin
     @Inject(method = "getWind", cancellable = true, at = @At(value = "HEAD"))
     private static void unifiedWind$replaceGetWind(double x, double y, double z, CallbackInfoReturnable<Vector3f> cir)
     {
-        if(!Config.compatParticleRainEnabled)
+        if(!CommonConfig.compatParticleRainEnabled)
             return;
         cir.setReturnValue(UnifiedWind.getWind(x, y, z));
     }
@@ -28,7 +28,7 @@ public class ParticleRainMixin
     @Inject(method = "yLevelWindMultiplier", cancellable = true, at = @At(value = "HEAD"))
     private static void unifiedWind$replaceYLevelWindMultiplier(double y, CallbackInfoReturnable<Float> cir)
     {
-        if(!Config.compatParticleRainEnabled)
+        if(!CommonConfig.compatParticleRainEnabled)
             return;
         cir.setReturnValue(UnifiedWind.yLevelWindMultiplier(y));
     }
