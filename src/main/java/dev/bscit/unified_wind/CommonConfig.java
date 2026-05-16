@@ -39,6 +39,11 @@ public class CommonConfig
         .define("wind.yLevelAdjustment", true);
 
     // compat
+    private static final ModConfigSpec.BooleanValue COMPAT_VANILLA_ENABLED = BUILDER
+        .translation(String.format("%s.configuration.compat.vanilla", UnifiedWind.MODID))
+        .comment("When enabled, many built-in particles will follow unified wind.")
+        .define("compat.vanilla", true);
+
     private static final ModConfigSpec.BooleanValue COMPAT_BURNT_ENABLED = BUILDER
         .translation(String.format("%s.configuration.compat.burnt", UnifiedWind.MODID))
         .comment("When enabled, Burnt's smoke and ember particles will follow unified wind.")
@@ -63,6 +68,7 @@ public class CommonConfig
     public static float windDirectionVariance = 0.002F;
     public static boolean windYLevelAdjustment = true;
 
+    public static boolean compatVanillaEnabled;
     public static boolean compatBurntEnabled;
     public static boolean compatParticleRainEnabled;
     public static boolean compatSootyChimneysEnabled;
@@ -77,6 +83,7 @@ public class CommonConfig
         windDirectionVariance = WIND_DIRECTION_VARIANCE.get().floatValue();
         windYLevelAdjustment = WIND_Y_LEVEL_ADJUSTMENT.get();
 
+        compatVanillaEnabled = COMPAT_VANILLA_ENABLED.get();
         compatBurntEnabled = COMPAT_BURNT_ENABLED.get();
         compatParticleRainEnabled = COMPAT_PARTICLE_RAIN_ENABLED.get();
         compatSootyChimneysEnabled = COMPAT_SOOTY_CHIMNEYS_ENABLED.get();

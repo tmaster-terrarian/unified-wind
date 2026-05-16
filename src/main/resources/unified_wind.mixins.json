@@ -11,7 +11,8 @@
     ],
     "client": [
         "accessor.ParticleAccessor",
-        "client.BurntParticleMixin"
+        "client.BurntParticleMixin",
+        "client.GenericParticlesMixin"
     ],
     "injectors": {
         "defaultRequire": 1
