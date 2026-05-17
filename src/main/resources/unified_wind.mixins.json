@@ -6,6 +6,7 @@
     "mixins": [
         "burnt.PlumRiseTickProcedureMixin",
         "burnt.WindWakerProcedureMixin",
+        "client.fallingleaves.FallingLeafParticleMixin",
         "particlerain.ParticleRainMixin",
         "simpleclouds.CloudManagerMixin",
         "sootychimneys.WindDataMixin",

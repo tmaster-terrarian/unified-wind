@@ -130,6 +130,12 @@ public class CommonConfig
         .define("compat.simpleClouds", true);
     public static boolean compatSimpleCloudsEnabled = true;
 
+    private static final ModConfigSpec.BooleanValue COMPAT_FALLING_LEAVES_ENABLED = BUILDER
+        .translation(String.format("%s.configuration.compat.falling_leaves", UnifiedWind.MODID))
+        .comment("When enabled, some logic in Simple Clouds is altered to make unified wind behave correctly.")
+        .define("compat.fallingLeaves", true);
+    public static boolean compatFallingLeavesEnabled = true;
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     @SubscribeEvent
@@ -159,5 +165,6 @@ public class CommonConfig
         compatParticleRainEnabled = COMPAT_PARTICLE_RAIN_ENABLED.get();
         compatSootyChimneysEnabled = COMPAT_SOOTY_CHIMNEYS_ENABLED.get();
         compatSimpleCloudsEnabled = COMPAT_SIMPLE_CLOUDS_ENABLED.get();
+        compatFallingLeavesEnabled = COMPAT_FALLING_LEAVES_ENABLED.get();
     }
 }
