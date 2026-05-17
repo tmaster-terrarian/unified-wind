@@ -4,15 +4,19 @@
     "package": "dev.bscit.unified_wind.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
-        "ParticleRainMixin",
-        "WindWakerProcedureMixin",
+        "burnt.PlumRiseTickProcedureMixin",
+        "burnt.WindWakerProcedureMixin",
+        "particlerain.ParticleRainMixin",
+        "simpleclouds.CloudManagerMixin",
         "sootychimneys.WindDataMixin",
         "sootychimneys.WindMixin"
     ],
     "client": [
-        "accessor.ParticleAccessor",
-        "client.BurntParticleMixin",
-        "client.GenericParticlesMixin"
+        "client.CherryParticleMixin",
+        "client.GenericParticlesMixin",
+        "client.ParticleMixin",
+        "client.accessor.ParticleAccessor",
+        "client.burnt.BurntParticleMixin"
     ],
     "injectors": {
         "defaultRequire": 1

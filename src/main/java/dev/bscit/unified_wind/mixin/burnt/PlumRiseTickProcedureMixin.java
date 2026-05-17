@@ -1,4 +1,4 @@
-package dev.bscit.unified_wind.mixin;
+package dev.bscit.unified_wind.mixin.burnt;
 
 import dev.bscit.unified_wind.CommonConfig;
 import dev.bscit.unified_wind.UnifiedWind;
@@ -7,6 +7,7 @@ import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.pixelbank.burnt.configuration.BurntBasicConfigConfiguration;
 import net.pixelbank.burnt.procedures.PlumRiseTickProcedure;
@@ -27,7 +28,7 @@ public class PlumRiseTickProcedureMixin
     @Inject(method = "execute", cancellable = true, at = @At(value = "HEAD"))
     private static void unifiedWind$execute(LevelAccessor world, CallbackInfo ci)
     {
-        if(!CommonConfig.compatBurntEnabled || !BurntBasicConfigConfiguration.DISTANT_SMOKE.get() || !world.isClientSide() || !(world instanceof ServerLevel level))
+        if(!CommonConfig.compatBurntEnabled || !BurntBasicConfigConfiguration.DISTANT_SMOKE.get() || world.isClientSide() || !(world instanceof ServerLevel level))
             return;
 
         long gameTime = level.getLevelData().getGameTime();
@@ -36,9 +37,9 @@ public class PlumRiseTickProcedureMixin
         {
             if(e != null && e.getType() == EntityType.ITEM_DISPLAY && !e.isRemoved())
             {
-                Vector3f wind = UnifiedWind.getWind(e.getX(), e.getY(), e.getZ());
-                double dx = wind.x * 10;
-                double dz = wind.z * 10;
+                Vector3f wind = UnifiedWind.getWind(e.getX(), e.getY(), e.getZ(), level);
+                double dx = wind.x * 0.25;
+                double dz = wind.z * 0.25;
 
                 Set<String> tags = e.getTags();
                 if(tags.contains("burnt_any_plume") && ((!tags.contains("far_burnt_plume") || gameTime % 2L == 0L) && (!tags.contains("distant_burnt_plume") || gameTime % 4L == 0L)))

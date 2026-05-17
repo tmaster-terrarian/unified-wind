@@ -1,9 +1,11 @@
-package dev.bscit.unified_wind.mixin;
+package dev.bscit.unified_wind.mixin.burnt;
 
 import dev.bscit.unified_wind.CommonConfig;
 import dev.bscit.unified_wind.UnifiedWind;
 import me.fallenbreath.conditionalmixin.api.annotation.Condition;
 import me.fallenbreath.conditionalmixin.api.annotation.Restriction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.pixelbank.burnt.network.BurntModVariables;
 import net.pixelbank.burnt.procedures.WindWakerProcedure;
@@ -21,13 +23,13 @@ public class WindWakerProcedureMixin
     @Inject(method = "execute", at = @At(value = "HEAD"), cancellable = true)
     private static void unifiedWind$redirectExecute(LevelAccessor world, CallbackInfo ci)
     {
-        if(!CommonConfig.compatBurntEnabled)
+        if(!CommonConfig.compatBurntEnabled || world.isClientSide() || !(world instanceof ServerLevel level))
             return;
 
         BurntModVariables.MapVariables mvSC = BurntModVariables.MapVariables.get(world);
 
-        var wind = UnifiedWind.getWind(0, 63, 0);
-        double newSpeed = wind.length() * 20;
+        var wind = UnifiedWind.getWind(0, 63, 0, level);
+        double newSpeed = wind.length();
         double newAngle = Math.atan2(wind.z, wind.x);
         boolean changedSC = false;
 

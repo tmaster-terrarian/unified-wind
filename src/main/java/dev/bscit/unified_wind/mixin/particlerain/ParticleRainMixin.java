@@ -1,4 +1,4 @@
-package dev.bscit.unified_wind.mixin;
+package dev.bscit.unified_wind.mixin.particlerain;
 
 import dev.bscit.unified_wind.CommonConfig;
 import dev.bscit.unified_wind.UnifiedWind;

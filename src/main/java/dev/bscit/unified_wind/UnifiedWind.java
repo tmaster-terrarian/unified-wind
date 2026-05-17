@@ -1,9 +1,15 @@
 package dev.bscit.unified_wind;
 
 import com.mojang.logging.LogUtils;
+import dev.bscit.unified_wind.mixin.client.accessor.ParticleAccessor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.PowderSnowBlock;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -25,6 +31,8 @@ public class UnifiedWind
 {
     public static final String MODID = "unified_wind";
     private static final Logger LOGGER = LogUtils.getLogger();
+
+    private static final boolean SIMPLECLOUDS_ENABLED = ModList.get().isLoaded("simpleclouds");
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -62,36 +70,120 @@ public class UnifiedWind
             return String.format("Not enabling compat for %s (%s) [mod is not present]", modName, modId);
     }
 
+    public static boolean isWindy(double x, double y, double z, Level level)
+    {
+        if(level == null)
+            return false;
+
+        var dimension = level.dimension();
+        if(dimension == Level.NETHER)
+            return false;
+
+        var pos = BlockPos.containing(x, y, z);
+        if(level.getBrightness(LightLayer.SKY, pos) == 0)
+            return false;
+
+        var fluid = level.getFluidState(pos);
+        return fluid.isEmpty() || CommonConfig.windUnderwater;
+    }
+
     // based on particle rain
     // particle rain's wind is very very cool
-    public static Vector3f getWind(double x, double y, double z) {
-        ClientLevel level = Minecraft.getInstance().level;
-        if (level == null) {
+    public static Vector3f getWind(double x, double y, double z, Level level)
+    {
+        if (!isWindy(x, y, z, level))
             return new Vector3f();
-        } else {
-            float frequency = CommonConfig.windGustFrequency;
-            float shift = (float)level.getGameTime() * CommonConfig.windModulationSpeed;
-            float variance = CommonConfig.windStrengthVariance;
-            float strength = CommonConfig.windStrength;
-            float multiplier = CommonConfig.windYLevelAdjustment ? yLevelWindMultiplier(y) : 0.0F;
-            float dir = (float)(Math.PI * 4 * SimplexNoise.noise(
-                (float)x * CommonConfig.windDirectionVariance,
-                0,
-                (float)z * CommonConfig.windDirectionVariance,
-                level.getGameTime() * 0.0001f)
-            );
-            return new Vector3f(
-                Mth.cos(dir) * ((Mth.sin((float)(x * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F),
-                0.0F,
-                Mth.sin(dir) * ((Mth.sin((float)(z * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F)
-            );
+
+        var pos = BlockPos.containing(x, y, z);
+        var hPos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos);
+        // annoying and laggy fix :/
+        if(level.getBlockState(hPos).getBlock() instanceof PowderSnowBlock)
+            hPos = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE, pos);
+        hPos = new BlockPos(hPos.getX(), Math.max(pos.getY(), hPos.getY()), hPos.getZ());
+
+        float skyExposureMultiplier = (float)level.getBrightness(LightLayer.SKY, pos) / 15;
+
+        float frequency = CommonConfig.windGustFrequency;
+        float shift = (float)level.getGameTime() * CommonConfig.windModulationSpeed;
+        float variance = CommonConfig.windStrengthVariance;
+        float strength = CommonConfig.windStrength;
+        float directionVariance = CommonConfig.windDirectionVariance;
+        if(level.isRainingAt(hPos))
+        {
+            if(level.isThundering() || SIMPLECLOUDS_ENABLED)
+            {
+                float mix = 1;
+                if(SIMPLECLOUDS_ENABLED)
+                    mix = SimpleCloudsBridge.getRainLevel(x, y, z, level);
+                frequency = CommonConfig.windStormGustFrequency;
+                shift = (float)level.getGameTime() * CommonConfig.windStormModulationSpeed;
+                // modulate strength and variance between normal rain and stormy rain
+                // (only looks good if storms are stronger than rain)
+                variance = Mth.lerp(CommonConfig.windRainStrengthVariance, CommonConfig.windStormStrengthVariance, mix);
+                strength = Mth.lerp(CommonConfig.windRainStrength, CommonConfig.windStormStrength, mix);
+                directionVariance = CommonConfig.windStormDirectionVariance;
+            }
+            else
+            {
+                frequency = CommonConfig.windRainGustFrequency;
+                shift = (float)level.getGameTime() * CommonConfig.windRainModulationSpeed;
+                variance = CommonConfig.windRainStrengthVariance;
+                strength = CommonConfig.windRainStrength;
+                directionVariance = CommonConfig.windRainDirectionVariance;
+            }
         }
+        float multiplier = CommonConfig.windYLevelAdjustment ? yLevelWindMultiplier(y) : 0.0F;
+        float dir = (float)(Math.PI * 4 * SimplexNoise.noise(
+            (float)x * directionVariance,
+            0,
+            (float)z * directionVariance,
+            level.getGameTime() * 0.0001f)
+        );
+
+        return new Vector3f(
+            Mth.cos(dir) * ((Mth.sin((float)(x * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F),
+            0.0F,
+            Mth.sin(dir) * ((Mth.sin((float)(z * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F)
+        ).mul(skyExposureMultiplier);
+    }
+
+    public static boolean isWindy(double x, double y, double z)
+    {
+        return isWindy(x, y, z, Minecraft.getInstance().level);
+    }
+
+    public static Vector3f getWind(double x, double y, double z)
+    {
+        return getWind(x, y, z, Minecraft.getInstance().level);
     }
 
     public static float yLevelWindMultiplier(double y) {
         int transitionStart = 50;
         int transitionDistance = 40;
         return (float)Mth.clamp((y - (double)transitionStart) / (double)transitionDistance, (double)0.0F, (double)1.0F);
+    }
+
+    public static void applyWindToParticle(Particle particle, boolean forced)
+    {
+        applyWindToParticleWithUnknownType(particle, forced);
+    }
+
+    public static void applyWindToParticleWithUnknownType(Object particle, boolean forced)
+    {
+        var p = (ParticleAccessor)particle;
+        if(!isWindy(p.unifiedWind$getX(), p.unifiedWind$getY(), p.unifiedWind$getZ()))
+            return;
+        Vector3f wind = UnifiedWind.getWind(p.unifiedWind$getX(), p.unifiedWind$getY(), p.unifiedWind$getZ()).mul(0.05f);
+        if(forced)
+        {
+            p.unifiedWind$setXd(wind.x);
+            p.unifiedWind$setZd(wind.z);
+        }
+        else
+        {
+            p.unifiedWind$setXd(p.unifiedWind$getXd() + 0.2 * (wind.x - p.unifiedWind$getXd()));
+            p.unifiedWind$setZd(p.unifiedWind$getZd() + 0.2 * (wind.z - p.unifiedWind$getZd()));
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

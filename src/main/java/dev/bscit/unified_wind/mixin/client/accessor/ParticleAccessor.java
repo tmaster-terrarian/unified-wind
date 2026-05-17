@@ -1,4 +1,4 @@
-package dev.bscit.unified_wind.mixin.accessor;
+package dev.bscit.unified_wind.mixin.client.accessor;
 
 import net.minecraft.client.particle.Particle;
 import org.spongepowered.asm.mixin.Mixin;
@@ -59,4 +59,34 @@ public interface ParticleAccessor {
 
     @Accessor("zd")
     void unifiedWind$setZd(double var1);
+
+    @Accessor("gravity")
+    float unifiedWind$getGravity();
+
+    @Accessor("gravity")
+    void unifiedWind$setGravity(float var1);
+
+    @Accessor("oRoll")
+    float unifiedWind$getORoll();
+
+    @Accessor("oRoll")
+    void unifiedWind$setORoll(float var1);
+
+    @Accessor("roll")
+    float unifiedWind$getRoll();
+
+    @Accessor("roll")
+    void unifiedWind$setRoll(float var1);
+
+    @Accessor("friction")
+    float unifiedWind$getFriction();
+
+    @Accessor("friction")
+    void unifiedWind$setFriction(float var1);
+
+    @Accessor("onGround")
+    boolean unifiedWind$getOnGround();
+
+    @Accessor("removed")
+    boolean unifiedWind$getRemoved();
 }
