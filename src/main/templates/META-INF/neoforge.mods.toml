@@ -87,15 +87,26 @@ side = "BOTH"
 [[dependencies]]
 modId = "particlerain"
 type = "optional"
-versionRange = "${particlerain_version_range}"
-ordering = "NONE"
 side = "BOTH"
 
 [[dependencies]]
 modId = "burnt"
 type = "optional"
-versionRange = "${burnt_version_range}"
-ordering = "NONE"
+side = "BOTH"
+
+[[dependencies]]
+modId = "sootychimneys"
+type = "optional"
+side = "BOTH"
+
+[[dependencies]]
+modId = "simpleclouds"
+type = "optional"
+side = "BOTH"
+
+[[dependencies]]
+modId = "fallingleaves"
+type = "optional"
 side = "BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
