@@ -20,7 +20,7 @@ public class WindDataMixin
     @Inject(method = "update", at = @At(value = "HEAD"), cancellable = true)
     private static void unifiedWind$nopeUpdate(CallbackInfo ci)
     {
-        if(!CommonConfig.compatSootyChimneysEnabled)
+        if(!CommonConfig.get().compat.sootyChimneys)
             return;
         ci.cancel();
     }
@@ -28,7 +28,7 @@ public class WindDataMixin
     @Inject(method = "getAdjustedStrength", at = @At(value = "RETURN"), cancellable = true)
     private static void unifiedWind$modifyAdjustedStrength(CallbackInfoReturnable<Float> cir)
     {
-        if(!CommonConfig.compatSootyChimneysEnabled)
+        if(!CommonConfig.get().compat.sootyChimneys)
             return;
         cir.setReturnValue(1f);
     }

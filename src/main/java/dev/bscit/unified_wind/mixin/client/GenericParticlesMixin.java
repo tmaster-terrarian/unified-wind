@@ -19,7 +19,7 @@ public class GenericParticlesMixin
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void unifiedWind$injectTick(CallbackInfo ci)
     {
-        if(!CommonConfig.compatVanillaEnabled)
+        if(!CommonConfig.get().compat.vanilla)
             return;
         UnifiedWind.applyWindToParticleWithUnknownType(this, false);
     }

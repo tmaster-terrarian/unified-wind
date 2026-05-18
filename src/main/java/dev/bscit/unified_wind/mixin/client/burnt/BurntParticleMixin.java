@@ -32,7 +32,7 @@ public class BurntParticleMixin
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void unifiedWind$injectTick(CallbackInfo ci)
     {
-        if(!CommonConfig.compatBurntEnabled)
+        if(!CommonConfig.get().compat.burnt)
             return;
         UnifiedWind.applyWindToParticleWithUnknownType(this, false);
     }

@@ -28,7 +28,7 @@ public class PlumRiseTickProcedureMixin
     @Inject(method = "execute", cancellable = true, at = @At(value = "HEAD"))
     private static void unifiedWind$execute(LevelAccessor world, CallbackInfo ci)
     {
-        if(!CommonConfig.compatBurntEnabled || !BurntBasicConfigConfiguration.DISTANT_SMOKE.get() || world.isClientSide() || !(world instanceof ServerLevel level))
+        if(!CommonConfig.get().compat.burnt || !BurntBasicConfigConfiguration.DISTANT_SMOKE.get() || world.isClientSide() || !(world instanceof ServerLevel level))
             return;
 
         long gameTime = level.getLevelData().getGameTime();

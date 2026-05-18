@@ -1,7 +1,6 @@
 package dev.bscit.unified_wind;
 
 import dev.nonamecrackers2.simpleclouds.common.world.CloudManager;
-import dev.nonamecrackers2.simpleclouds.common.world.CloudManagerHolder;
 import net.minecraft.world.level.Level;
 
 public class SimpleCloudsBridge

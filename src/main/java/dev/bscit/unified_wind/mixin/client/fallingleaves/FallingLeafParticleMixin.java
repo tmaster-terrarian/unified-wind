@@ -20,7 +20,7 @@ public class FallingLeafParticleMixin
     @ModifyExpressionValue(method = "tick", at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lde/cheaterpaul/fallingleaves/util/Wind;windX:F"))
     private float unifiedWind$modifyWindX(float original)
     {
-        if(!CommonConfig.compatFallingLeavesEnabled)
+        if(!CommonConfig.get().compat.fallingLeaves)
             return original;
         var p = (ParticleAccessor)this;
         return UnifiedWind.getWind(p.unifiedWind$getX(), p.unifiedWind$getY(), p.unifiedWind$getZ()).x * 0.8f;
@@ -29,7 +29,7 @@ public class FallingLeafParticleMixin
     @ModifyExpressionValue(method = "tick", at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lde/cheaterpaul/fallingleaves/util/Wind;windZ:F"))
     private float unifiedWind$modifyWindZ(float original)
     {
-        if(!CommonConfig.compatFallingLeavesEnabled)
+        if(!CommonConfig.get().compat.fallingLeaves)
             return original;
         var p = (ParticleAccessor)this;
         return UnifiedWind.getWind(p.unifiedWind$getX(), p.unifiedWind$getY(), p.unifiedWind$getZ()).z * 0.8f;

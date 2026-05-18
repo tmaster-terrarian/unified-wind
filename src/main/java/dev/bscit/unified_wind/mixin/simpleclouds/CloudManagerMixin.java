@@ -18,7 +18,7 @@ public class CloudManagerMixin
     @ModifyConstant(method = "getPrecipitationAt", constant = @Constant(floatValue = 128.0f))
     private static float unifiedWind$modifyRainLevel(float original)
     {
-        if(!CommonConfig.compatSimpleCloudsEnabled)
+        if(!CommonConfig.get().compat.simpleClouds)
             return original;
         return 1000000;
     }

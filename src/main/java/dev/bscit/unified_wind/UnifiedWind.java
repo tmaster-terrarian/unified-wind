@@ -2,6 +2,9 @@ package dev.bscit.unified_wind;
 
 import com.mojang.logging.LogUtils;
 import dev.bscit.unified_wind.mixin.client.accessor.ParticleAccessor;
+import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
+import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
@@ -17,7 +20,6 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -46,8 +48,11 @@ public class UnifiedWind
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
-        // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
+        // Register our mod's config
+        AutoConfig.register(
+            CommonConfig.class,
+            PartitioningSerializer.wrap(Toml4jConfigSerializer::new)
+        );
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
@@ -55,9 +60,13 @@ public class UnifiedWind
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
 
-        LOGGER.info(logCompat(CommonConfig.compatBurntEnabled, "burnt", "Burnt"));
-        LOGGER.info(logCompat(CommonConfig.compatParticleRainEnabled, "particlerain", "Particle Rain"));
-        LOGGER.info(logCompat(CommonConfig.compatSootyChimneysEnabled, "sootychimneys", "Sooty Chimneys"));
+        var config = CommonConfig.get();
+        LOGGER.info(logCompat(config.compat.vanilla, "minecraft", "Vanilla"));
+        LOGGER.info(logCompat(config.compat.burnt, "burnt", "Burnt"));
+        LOGGER.info(logCompat(config.compat.particleRain, "particlerain", "Particle Rain"));
+        LOGGER.info(logCompat(config.compat.sootyChimneys, "sootychimneys", "Sooty Chimneys"));
+        LOGGER.info(logCompat(config.compat.simpleClouds, "simpleclouds", "Simple Clouds"));
+        LOGGER.info(logCompat(config.compat.fallingLeaves, "fallingleaves", "Falling Leaves"));
     }
 
     private static String logCompat(boolean configCondition, String modId, String modName)
@@ -84,7 +93,7 @@ public class UnifiedWind
             return false;
 
         var fluid = level.getFluidState(pos);
-        return fluid.isEmpty() || CommonConfig.windUnderwater;
+        return fluid.isEmpty() || CommonConfig.get().wind.allowUnderwater;
     }
 
     // based on particle rain
@@ -103,11 +112,12 @@ public class UnifiedWind
 
         float skyExposureMultiplier = (float)level.getBrightness(LightLayer.SKY, pos) / 15;
 
-        float frequency = CommonConfig.windGustFrequency;
-        float shift = (float)level.getGameTime() * CommonConfig.windModulationSpeed;
-        float variance = CommonConfig.windStrengthVariance;
-        float strength = CommonConfig.windStrength;
-        float directionVariance = CommonConfig.windDirectionVariance;
+        CommonConfig config = CommonConfig.get();
+        float frequency = config.wind.base.gustFrequency;
+        float shift = (float)level.getGameTime() * config.wind.base.modulationSpeed;
+        float variance = config.wind.base.strengthVariance;
+        float strength = config.wind.base.strength;
+        float directionVariance = config.wind.base.directionVariance;
         if(level.isRainingAt(hPos))
         {
             if(level.isThundering() || SIMPLECLOUDS_ENABLED)
@@ -115,24 +125,24 @@ public class UnifiedWind
                 float mix = 1;
                 if(SIMPLECLOUDS_ENABLED)
                     mix = SimpleCloudsBridge.getRainLevel(x, y, z, level);
-                frequency = CommonConfig.windStormGustFrequency;
-                shift = (float)level.getGameTime() * CommonConfig.windStormModulationSpeed;
+                frequency = config.wind.storm.gustFrequency;
+                shift = (float)level.getGameTime() * config.wind.storm.modulationSpeed;
                 // modulate strength and variance between normal rain and stormy rain
                 // (only looks good if storms are stronger than rain)
-                variance = Mth.lerp(CommonConfig.windRainStrengthVariance, CommonConfig.windStormStrengthVariance, mix);
-                strength = Mth.lerp(CommonConfig.windRainStrength, CommonConfig.windStormStrength, mix);
-                directionVariance = CommonConfig.windStormDirectionVariance;
+                variance = Mth.lerp(config.wind.rain.strengthVariance, config.wind.storm.strengthVariance, mix);
+                strength = Mth.lerp(config.wind.rain.strength, config.wind.storm.strength, mix);
+                directionVariance = config.wind.storm.directionVariance;
             }
             else
             {
-                frequency = CommonConfig.windRainGustFrequency;
-                shift = (float)level.getGameTime() * CommonConfig.windRainModulationSpeed;
-                variance = CommonConfig.windRainStrengthVariance;
-                strength = CommonConfig.windRainStrength;
-                directionVariance = CommonConfig.windRainDirectionVariance;
+                frequency = config.wind.rain.gustFrequency;
+                shift = (float)level.getGameTime() * config.wind.rain.modulationSpeed;
+                variance = config.wind.rain.strengthVariance;
+                strength = config.wind.rain.strength;
+                directionVariance = config.wind.rain.directionVariance;
             }
         }
-        float multiplier = CommonConfig.windYLevelAdjustment ? yLevelWindMultiplier(y) : 0.0F;
+        float multiplier = config.wind.yLevelAdjustment ? yLevelWindMultiplier(y) : 0.0F;
         float dir = (float)(Math.PI * 4 * SimplexNoise.noise(
             (float)x * directionVariance,
             0,

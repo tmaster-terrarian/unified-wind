@@ -14,7 +14,7 @@ public class ParticleMixin
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void unifiedWind$injectTick(CallbackInfo ci)
     {
-        if(!CommonConfig.compatVanillaEnabled)
+        if(!CommonConfig.get().compat.vanilla)
             return;
         var obj = (Object)this;
         if((obj instanceof FlameParticle)

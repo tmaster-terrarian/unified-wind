@@ -20,7 +20,7 @@ public class ParticleRainMixin
     @Inject(method = "getWind", cancellable = true, at = @At(value = "HEAD"))
     private static void unifiedWind$replaceGetWind(double x, double y, double z, CallbackInfoReturnable<Vector3f> cir)
     {
-        if(!CommonConfig.compatParticleRainEnabled)
+        if(!CommonConfig.get().compat.particleRain)
             return;
         cir.setReturnValue(UnifiedWind.getWind(x, y, z));
     }
@@ -28,7 +28,7 @@ public class ParticleRainMixin
     @Inject(method = "yLevelWindMultiplier", cancellable = true, at = @At(value = "HEAD"))
     private static void unifiedWind$replaceYLevelWindMultiplier(double y, CallbackInfoReturnable<Float> cir)
     {
-        if(!CommonConfig.compatParticleRainEnabled)
+        if(!CommonConfig.get().compat.particleRain)
             return;
         cir.setReturnValue(UnifiedWind.yLevelWindMultiplier(y));
     }

@@ -24,7 +24,7 @@ public class CherryParticleMixin
     @Inject(method = "tick", at = @At(value = "HEAD"), cancellable = true)
     private void unifiedWind$injectTick(CallbackInfo ci)
     {
-        if(!CommonConfig.compatVanillaEnabled)
+        if(!CommonConfig.get().compat.vanilla)
             return;
         var p = (CherryParticle)(Object)this;
         var accessor = (ParticleAccessor)this;

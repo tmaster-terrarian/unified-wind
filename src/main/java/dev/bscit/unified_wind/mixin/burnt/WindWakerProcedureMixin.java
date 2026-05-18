@@ -23,7 +23,7 @@ public class WindWakerProcedureMixin
     @Inject(method = "execute", at = @At(value = "HEAD"), cancellable = true)
     private static void unifiedWind$redirectExecute(LevelAccessor world, CallbackInfo ci)
     {
-        if(!CommonConfig.compatBurntEnabled || world.isClientSide() || !(world instanceof ServerLevel level))
+        if(!CommonConfig.get().compat.burnt || world.isClientSide() || !(world instanceof ServerLevel level))
             return;
 
         BurntModVariables.MapVariables mvSC = BurntModVariables.MapVariables.get(world);

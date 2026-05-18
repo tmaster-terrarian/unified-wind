@@ -46,7 +46,7 @@ config = "${mod_id}.mixins.json"
 # The coremods config file path is not configurable and is always loaded from META-INF/coremods.json
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies."${mod_id}"]] #optional
+[[dependencies]]
 # the modid of the dependency
 modId = "neoforge" #mandatory
 # The type of the dependency. Can be one of "required", "optional", "incompatible" or "discouraged" (case insensitive).
@@ -64,7 +64,7 @@ ordering = "NONE"
 # Side this dependency is applied on - BOTH, CLIENT, or SERVER
 side = "BOTH"
 # Here's another dependency
-[[dependencies."${mod_id}"]]
+[[dependencies]]
 modId = "minecraft"
 type = "required"
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
@@ -72,19 +72,26 @@ versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies."${mod_id}"]]
+[[dependencies]]
+modId = "cloth_config"
+type = "required"
+versionRange = "[${cloth_config_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies]]
 modId = "immersivewind"
 type = "discouraged"
 side = "BOTH"
 
-[[dependencies."${mod_id}"]]
+[[dependencies]]
 modId = "particlerain"
 type = "optional"
 versionRange = "${particlerain_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies."${mod_id}"]]
+[[dependencies]]
 modId = "burnt"
 type = "optional"
 versionRange = "${burnt_version_range}"
