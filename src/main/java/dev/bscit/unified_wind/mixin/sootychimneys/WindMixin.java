@@ -23,7 +23,7 @@ public class WindMixin
         if(!CommonConfig.get().compat.sootyChimneys)
             return;
         var wind = UnifiedWind.getWind(0, 63, 0);
-        Wind.getWind().set(Math.toDegrees(Math.atan2(wind.z, wind.x)), wind.length());
+        Wind.getWind().set(Math.toDegrees(UnifiedWind.getAngle(wind.x, wind.z)), wind.length());
         ci.cancel();
     }
 }

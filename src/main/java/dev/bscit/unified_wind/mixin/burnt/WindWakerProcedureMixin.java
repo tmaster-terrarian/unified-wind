@@ -30,7 +30,7 @@ public class WindWakerProcedureMixin
 
         var wind = UnifiedWind.getWind(0, 63, 0, level);
         double newSpeed = wind.length();
-        double newAngle = Math.atan2(wind.z, wind.x);
+        double newAngle = UnifiedWind.getAngle(wind.x, wind.z);
         boolean changedSC = false;
 
         if (Math.abs(newSpeed - mvSC.windSpeed) > 0.1) {
