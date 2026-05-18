@@ -100,8 +100,12 @@ public class UnifiedWind
     // particle rain's wind is very very cool
     public static Vector3f getWind(double x, double y, double z, Level level)
     {
+        level.getProfiler().push("uw:getWind");
         if (!isWindy(x, y, z, level))
+        {
+            level.getProfiler().pop();
             return new Vector3f();
+        }
 
         var pos = BlockPos.containing(x, y, z);
         var hPos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos);
@@ -150,11 +154,14 @@ public class UnifiedWind
             level.getGameTime() * 0.0001f)
         );
 
-        return new Vector3f(
+        Vector3f vector = new Vector3f(
             Mth.cos(dir) * ((Mth.sin((float)(x * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F),
             0.0F,
             Mth.sin(dir) * ((Mth.sin((float)(z * (double)frequency + (double)shift)) * variance + variance + strength) * multiplier + 0.001F)
         ).mul(skyExposureMultiplier);
+
+        level.getProfiler().pop();
+        return vector;
     }
 
     public static boolean isWindy(double x, double y, double z)
