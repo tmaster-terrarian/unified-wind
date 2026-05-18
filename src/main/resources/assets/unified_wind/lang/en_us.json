@@ -5,6 +5,7 @@
     "text.autoconfig.unified_wind.option.wind.yLevelAdjustment": "Y Level Adjustment",
     "text.autoconfig.unified_wind.option.wind.yLevelAdjustment.@Tooltip": "Makes wind stronger at higher elevations, and weaker at lower elevations",
     "text.autoconfig.unified_wind.option.wind.allowUnderwater": "Allow Underwater",
+    "text.autoconfig.unified_wind.option.wind.windyDimensions": "Windy Dimensions",
     "text.autoconfig.unified_wind.option.wind.base": "Base Settings",
     "text.autoconfig.unified_wind.option.wind.rain": "Overcast Settings",
     "text.autoconfig.unified_wind.option.wind.storm": "Stormy Settings",

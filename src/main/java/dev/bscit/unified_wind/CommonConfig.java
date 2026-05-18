@@ -4,8 +4,16 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.*;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 @Config(name = UnifiedWind.MODID)
 public class CommonConfig extends PartitioningSerializer.GlobalData
@@ -31,6 +39,11 @@ public class CommonConfig extends PartitioningSerializer.GlobalData
         public boolean yLevelAdjustment = true;
 
         public boolean allowUnderwater = false;
+
+        public List<String> windyDimensions = List.of(
+            "minecraft:overworld",
+            "minecraft:the_end"
+        );
 
         @ConfigEntry.Category("weather")
         @ConfigEntry.Gui.CollapsibleObject

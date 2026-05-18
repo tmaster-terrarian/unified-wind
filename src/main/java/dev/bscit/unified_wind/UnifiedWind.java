@@ -84,12 +84,12 @@ public class UnifiedWind
         if(level == null)
             return false;
 
-        var dimension = level.dimension();
-        if(dimension == Level.NETHER)
+        var dimension = level.dimension().location().toString();
+        if(!CommonConfig.get().wind.windyDimensions.contains(dimension))
             return false;
 
         var pos = BlockPos.containing(x, y, z);
-        if(level.getBrightness(LightLayer.SKY, pos) == 0)
+        if(level.dimensionType().hasSkyLight() && level.getBrightness(LightLayer.SKY, pos) == 0)
             return false;
 
         var fluid = level.getFluidState(pos);
@@ -114,7 +114,9 @@ public class UnifiedWind
             hPos = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE, pos);
         hPos = new BlockPos(hPos.getX(), Math.max(pos.getY(), hPos.getY()), hPos.getZ());
 
-        float skyExposureMultiplier = (float)level.getBrightness(LightLayer.SKY, pos) / 15;
+        float skyExposureMultiplier = level.dimensionType().hasSkyLight()
+            ? level.getBrightness(LightLayer.SKY, pos) / 15f
+            : 1;
 
         CommonConfig config = CommonConfig.get();
         float frequency = config.wind.base.gustFrequency;
