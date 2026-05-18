@@ -13,11 +13,12 @@
     ],
     "client": [
         "client.CherryParticleMixin",
-        "client.fallingleaves.FallingLeafParticleMixin",
+        "client.DebugScreenOverlayMixin",
         "client.GenericParticlesMixin",
         "client.ParticleMixin",
         "client.accessor.ParticleAccessor",
-        "client.burnt.BurntParticleMixin"
+        "client.burnt.BurntParticleMixin",
+        "client.fallingleaves.FallingLeafParticleMixin"
     ],
     "injectors": {
         "defaultRequire": 1
