@@ -185,6 +185,17 @@ public class UnifiedWind
         return (float)getAngle((double)x, (double)z);
     }
 
+    public static float getWindAngle(double x, double y, double z, Level level)
+    {
+        var dir = getWind(x, y, z, level);
+        return getAngle(dir.x, dir.z);
+    }
+
+    public static double getWindAngle(double x, double y, double z)
+    {
+        return getWindAngle(x, y, z, Minecraft.getInstance().level);
+    }
+
     public static float yLevelWindMultiplier(double y) {
         int transitionStart = 50;
         int transitionDistance = 40;
