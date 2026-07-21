@@ -126,25 +126,24 @@ public class UnifiedWind
         float directionVariance = config.wind.base.directionVariance;
         if(level.isRainingAt(hPos))
         {
+            float mix = level.getRainLevel(1);
             if(level.isThundering() || SIMPLECLOUDS_ENABLED)
             {
-                float mix = 1;
+                mix = level.getThunderLevel(1);
                 if(SIMPLECLOUDS_ENABLED)
                     mix = SimpleCloudsBridge.getRainLevel(x, y, z, level);
                 frequency = config.wind.storm.gustFrequency;
                 shift = (float)level.getGameTime() * config.wind.storm.modulationSpeed;
-                // modulate strength and variance between normal rain and stormy rain
-                // (only looks good if storms are stronger than rain)
-                variance = Mth.lerp(config.wind.rain.strengthVariance, config.wind.storm.strengthVariance, mix);
-                strength = Mth.lerp(config.wind.rain.strength, config.wind.storm.strength, mix);
+                variance = Mth.lerp(config.wind.rain.strengthVariance, config.wind.storm.strengthVariance, Math.clamp(mix, 0, 1));
+                strength = Mth.lerp(config.wind.rain.strength, config.wind.storm.strength, Math.clamp(mix, 0, 1));
                 directionVariance = config.wind.storm.directionVariance;
             }
             else
             {
                 frequency = config.wind.rain.gustFrequency;
                 shift = (float)level.getGameTime() * config.wind.rain.modulationSpeed;
-                variance = config.wind.rain.strengthVariance;
-                strength = config.wind.rain.strength;
+                variance = Mth.lerp(config.wind.base.strengthVariance, config.wind.rain.strengthVariance, Math.clamp(mix, 0, 1));
+                strength = Mth.lerp(config.wind.base.strength, config.wind.rain.strength, Math.clamp(mix, 0, 1));
                 directionVariance = config.wind.rain.directionVariance;
             }
         }
