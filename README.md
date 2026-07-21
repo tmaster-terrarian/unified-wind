@@ -14,10 +14,10 @@ No, I will not backport/update the mod to other Minecraft versions!!!
 Currently supported mods:
 - Minecraft (several particles are affected by wind!)
 - [Particle Rain](https://modrinth.com/mod/particle-rain)
-- [Burnt](https://modrinth.com/mod/burnt)
+- [Burnt Basic](https://modrinth.com/mod/burnt-basic)
 - [Sooty Chimneys](https://modrinth.com/mod/sooty-chimneys)
 - [Simple Clouds](https://modrinth.com/mod/simple-clouds)
-- [Falling Leaves](https://modrinth.com/mod/falling-leaves)
+- [Falling Leaves](https://modrinth.com/mod/fallingleaves)
 - ...and more to come (please feel free to suggest any!!)
 
 Mods that will never be supported (and therefore may be broken):
