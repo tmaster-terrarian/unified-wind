@@ -27,7 +27,9 @@ public class ParticleMixin
             || (obj instanceof DustParticle)
             || (obj instanceof SpellParticle)
             || (obj instanceof TotemParticle)
-            || (obj instanceof SplashParticle))
+            || (obj instanceof SplashParticle)
+            || (obj instanceof SoulParticle)
+        )
             UnifiedWind.applyWindToParticleWithUnknownType(this, false);
     }
 }
