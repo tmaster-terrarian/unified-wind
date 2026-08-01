@@ -18,6 +18,7 @@ Currently supported mods:
 - [Sooty Chimneys](https://modrinth.com/mod/sooty-chimneys)
 - [Simple Clouds](https://modrinth.com/mod/simple-clouds)
 - [Falling Leaves](https://modrinth.com/mod/fallingleaves)
+- [Grassier Grass](https://modrinth.com/mod/grassier-grass)
 - ...and more to come (please feel free to suggest any!!)
 
 Mods that will never be supported (and therefore may be broken):
@@ -41,7 +42,6 @@ HOPEFULLY it's not too broken, and it's really really unlikely to crash your gam
 crash your game please [report an Issue](https://github.com/tmaster-terrarian/unified-wind/issues)!).
 
 ### upcoming/backlog/christmas wishlist
-- upload to Modrinth
 - more robust and versatile mod hooking method
 - fabric support via Stonecutter
 - more accurate wind speed/direction using a voxel grid simulation with terrain slope + temperature + elevation in mind
