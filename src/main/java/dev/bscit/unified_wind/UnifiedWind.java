@@ -135,16 +135,17 @@ public class UnifiedWind
         float directionVariance = config.wind.base.directionVariance;
         if(level.isRainingAt(hPos))
         {
-            float mix = level.getRainLevel(1);
+            float mix = (level.getRainLevel(1) - 0.2f) * 1.25f;
+            float mixStorm = 0;
             if(level.isThundering() || SIMPLECLOUDS_ENABLED)
             {
-                mix = level.getThunderLevel(1);
+                mixStorm = (level.getThunderLevel(1) - 0.9f) * 10;
                 if(SIMPLECLOUDS_ENABLED)
-                    mix = SimpleCloudsBridge.getRainLevel(x, y, z, level);
+                    mixStorm = SimpleCloudsBridge.getRainLevel(x, y, z, level);
                 frequency = config.wind.storm.gustFrequency;
                 shift = (float)level.getGameTime() * config.wind.storm.modulationSpeed;
-                variance = Mth.lerp(config.wind.rain.strengthVariance, config.wind.storm.strengthVariance, Math.clamp(mix, 0, 1));
-                strength = Mth.lerp(config.wind.rain.strength, config.wind.storm.strength, Math.clamp(mix, 0, 1));
+                variance = Mth.lerp(Mth.lerp(config.wind.base.strengthVariance, config.wind.rain.strengthVariance, Math.clamp(mix, 0, 1)), config.wind.storm.strengthVariance, Math.clamp(mixStorm, 0, 1));
+                strength = Mth.lerp(Mth.lerp(config.wind.base.strength, config.wind.rain.strength, Math.clamp(mix, 0, 1)), config.wind.storm.strength, Math.clamp(mixStorm, 0, 1));
                 directionVariance = config.wind.storm.directionVariance;
             }
             else
@@ -292,14 +293,15 @@ public class UnifiedWind
             float strength = config.wind.base.strength;
             if(level.isRainingAt(hPos))
             {
-                float mix = level.getRainLevel(1);
+                float mix = (level.getRainLevel(1) - 0.2f) * 1.25f;
+                float mixStorm = 0;
                 if(level.isThundering() || SIMPLECLOUDS_ENABLED)
                 {
-                    mix = level.getThunderLevel(1);
+                    mixStorm = (level.getThunderLevel(1) - 0.9f) * 10;
                     if(SIMPLECLOUDS_ENABLED)
-                        mix = SimpleCloudsBridge.getRainLevel(posD.x, posD.y, posD.z, level);
-                    variance = Mth.lerp(config.wind.rain.strengthVariance, config.wind.storm.strengthVariance, Math.clamp(mix, 0, 1));
-                    strength = Mth.lerp(config.wind.rain.strength, config.wind.storm.strength, Math.clamp(mix, 0, 1));
+                        mixStorm = SimpleCloudsBridge.getRainLevel(posD.x, posD.y, posD.z, level);
+                    variance = Mth.lerp(Mth.lerp(config.wind.base.strengthVariance, config.wind.rain.strengthVariance, Math.clamp(mix, 0, 1)), config.wind.storm.strengthVariance, Math.clamp(mixStorm, 0, 1));
+                    strength = Mth.lerp(Mth.lerp(config.wind.base.strength, config.wind.rain.strength, Math.clamp(mix, 0, 1)), config.wind.storm.strength, Math.clamp(mixStorm, 0, 1));
                 }
                 else
                 {
