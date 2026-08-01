@@ -74,6 +74,7 @@ public class UnifiedWind
         LOGGER.info(logCompat(config.compat.sootyChimneys, "sootychimneys", "Sooty Chimneys"));
         LOGGER.info(logCompat(config.compat.simpleClouds, "simpleclouds", "Simple Clouds"));
         LOGGER.info(logCompat(config.compat.fallingLeaves, "fallingleaves", "Falling Leaves"));
+        LOGGER.info(logCompat(config.compat.grassierGrass, "grassiergrass", "Grassier Grass"));
     }
 
     private static String logCompat(boolean configCondition, String modId, String modName)

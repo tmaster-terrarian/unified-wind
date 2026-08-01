@@ -77,6 +77,9 @@ public class CommonConfig extends PartitioningSerializer.GlobalData
 
         @ConfigEntry.Gui.Tooltip
         public boolean fallingLeaves = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean grassierGrass = true;
     }
 
     public static class WindSettings

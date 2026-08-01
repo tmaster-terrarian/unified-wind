@@ -18,7 +18,8 @@
         "client.ParticleMixin",
         "client.accessor.ParticleAccessor",
         "client.burnt.BurntParticleMixin",
-        "client.fallingleaves.FallingLeafParticleMixin"
+        "client.fallingleaves.FallingLeafParticleMixin",
+        "client.grassiergrass.GrassConfigMixin"
     ],
     "injectors": {
         "defaultRequire": 1
