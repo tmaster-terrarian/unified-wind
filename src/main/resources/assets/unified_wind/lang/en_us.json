@@ -38,5 +38,7 @@
     "text.autoconfig.unified_wind.option.compat.simpleClouds": "Simple Clouds",
     "text.autoconfig.unified_wind.option.compat.simpleClouds.@Tooltip": "When enabled, some logic in Simple Clouds is altered to make unified wind behave correctly.",
     "text.autoconfig.unified_wind.option.compat.fallingLeaves": "Falling Leaves",
-    "text.autoconfig.unified_wind.option.compat.fallingLeaves.@Tooltip": "When enabled, leaf particles added by Falling Leaves will follow unified wind."
+    "text.autoconfig.unified_wind.option.compat.fallingLeaves.@Tooltip": "When enabled, leaf particles added by Falling Leaves will follow unified wind.",
+    "text.autoconfig.unified_wind.option.compat.visuality": "Visuality",
+    "text.autoconfig.unified_wind.option.compat.visuality.@Tooltip": "When enabled, most particles added by Visuality will follow unified wind."
 }
