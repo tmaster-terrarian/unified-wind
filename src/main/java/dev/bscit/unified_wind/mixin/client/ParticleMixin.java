@@ -17,6 +17,7 @@ public class ParticleMixin
         if(!CommonConfig.get().compat.vanilla)
             return;
         var obj = (Object)this;
+        //noinspection ConstantValue
         if((obj instanceof FlameParticle)
             || (obj instanceof BaseAshSmokeParticle)
             || (obj instanceof AshParticle)
