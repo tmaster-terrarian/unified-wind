@@ -3,7 +3,7 @@
 
     "text.autoconfig.unified_wind.category.wind": "wind",
     "text.autoconfig.unified_wind.option.wind.yLevelAdjustment": "Y Level Adjustment",
-    "text.autoconfig.unified_wind.option.wind.yLevelAdjustment.@Tooltip": "Makes wind stronger at higher elevations, and weaker at lower elevations",
+    "text.autoconfig.unified_wind.option.wind.yLevelAdjustment.@Tooltip": "Makes wind stronger at higher elevations, and weaker at lower elevations.",
     "text.autoconfig.unified_wind.option.wind.allowUnderwater": "Allow Underwater",
     "text.autoconfig.unified_wind.option.wind.windyDimensions": "Windy Dimensions",
     "text.autoconfig.unified_wind.option.wind.base": "Base Settings",
@@ -26,16 +26,17 @@
     "text.autoconfig.unified_wind.option.wind.storm.directionVariance": "Direction Variance",
 
     "text.autoconfig.unified_wind.category.compat": "compat",
+    "text.autoconfig.unified_wind.option.compat.vanilla.@PrefixText": "These settings control whether Unified Wind should modify the behavior of each supported mod. In most cases, it causes the affected mod's config to be completely ignored in favor of Unified Wind.",
     "text.autoconfig.unified_wind.option.compat.vanilla": "Vanilla",
-    "text.autoconfig.unified_wind.option.compat.vanilla.@Tooltip": "When enabled, many built-in particles will follow unified wind",
+    "text.autoconfig.unified_wind.option.compat.vanilla.@Tooltip": "When enabled, many built-in particles will follow unified wind.",
     "text.autoconfig.unified_wind.option.compat.burnt": "Burnt",
-    "text.autoconfig.unified_wind.option.compat.burnt.@Tooltip": "When enabled, Burnt's smoke and ember particles will follow unified wind",
+    "text.autoconfig.unified_wind.option.compat.burnt.@Tooltip": "When enabled, Burnt's smoke and ember particles will follow unified wind.",
     "text.autoconfig.unified_wind.option.compat.particleRain": "Particle Rain",
-    "text.autoconfig.unified_wind.option.compat.particleRain.@Tooltip": "When enabled, Particle Rain's weather particles will follow unified wind",
+    "text.autoconfig.unified_wind.option.compat.particleRain.@Tooltip": "When enabled, Particle Rain's weather particles will follow unified wind.",
     "text.autoconfig.unified_wind.option.compat.sootyChimneys": "Sooty Chimneys",
-    "text.autoconfig.unified_wind.option.compat.sootyChimneys.@Tooltip": "When enabled, Sooty Chimneys' smoke particles will follow unified wind",
+    "text.autoconfig.unified_wind.option.compat.sootyChimneys.@Tooltip": "When enabled, Sooty Chimneys' smoke particles will follow unified wind.",
     "text.autoconfig.unified_wind.option.compat.simpleClouds": "Simple Clouds",
-    "text.autoconfig.unified_wind.option.compat.simpleClouds.@Tooltip": "When enabled, some logic in Simple Clouds is altered to make unified wind behave correctly",
+    "text.autoconfig.unified_wind.option.compat.simpleClouds.@Tooltip": "When enabled, some logic in Simple Clouds is altered to make unified wind behave correctly.",
     "text.autoconfig.unified_wind.option.compat.fallingLeaves": "Falling Leaves",
-    "text.autoconfig.unified_wind.option.compat.fallingLeaves.@Tooltip": "When enabled, leaf particles added by Falling Leaves will follow unified wind"
+    "text.autoconfig.unified_wind.option.compat.fallingLeaves.@Tooltip": "When enabled, leaf particles added by Falling Leaves will follow unified wind."
 }

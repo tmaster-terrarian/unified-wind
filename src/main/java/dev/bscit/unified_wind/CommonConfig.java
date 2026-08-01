@@ -59,6 +59,7 @@ public class CommonConfig extends PartitioningSerializer.GlobalData
     @Config(name = "compat")
     public static class CompatSection implements ConfigData
     {
+        @ConfigEntry.Gui.PrefixText
         @ConfigEntry.Gui.Tooltip
         public boolean vanilla = true;
 
