@@ -41,8 +41,43 @@ UnifiedWind.java for available API methods (wiki coming eventually!).
 HOPEFULLY it's not too broken, and it's really really unlikely to crash your game (but of course, if it does somehow
 crash your game please [report an Issue](https://github.com/tmaster-terrarian/unified-wind/issues)!).
 
+### wind drivers
+A "wind driver" is a thin layer between Unified Wind's mixins and a "wind source" — any mod that implements wind in a
+sufficiently unique and complicated way. This system allows players to decide which wind pattern they prefer. There is
+always at least one wind driver available: the built-in behavior that comes with Unified Wind itself.
+
+Wind driver preferences are synced between client and server where possible.
+
+Each wind driver is capable of:
+- Calculating wind direction & speed as a non-normalized `Vector3f`, given a position (`BlockPos` or `double` coordinates)
+  and a `Level`. Passing in `level` is only required on the server side. The length of the vector represents wind strength.
+- Calculating wind direction & speed as an angle on the Y axis and a magnitude value (required for mods that do not
+  support vertical motion, such as Grassier Grass).
+- Operating performantly, since wind is calculated one or more times per object influenced by wind — including many
+  particle effects — in order to support per-block behavior.
+
+Wind drivers may additionally:
+- Respect the weather-based wind settings in Unified Wind's config.
+- Respect localized weather added by Simple Clouds or Protomanly's weather mod.
+
+Note: not all wind drivers need to implement fancy per-block multi-directional wind. Global wind is acceptable, though
+it won't look as dynamic. Per-block behavior is specifically required for effects such as interior vs. exterior wind
+speeds and horizontal speed transitions; vertical transitions can be handled by simply checking the Y position.
+
+#### available wind drivers
+- **Unified Wind (built-in)** — the default driver; a multi-directional derivative of Particle Rain's wind pattern
+  (note: Particle Rain is not required).
+
+#### planned / in-progress wind drivers
+- **Project: Atmosphere** — community contributions welcome; feel free to open a Pull Request!
+- **Protomanly's Weather** — community contributions welcome; feel free to open a Pull Request!
+
+For anyone interested in contributing a wind driver implementation, please open a Pull Request. Feedback and concerns
+are very welcome!
+
 ### upcoming/backlog/christmas wishlist
 - more robust and versatile mod hooking method
 - fabric support via Stonecutter
+- wind driver system (see above)
 - more accurate wind speed/direction using a voxel grid simulation with terrain slope + temperature + elevation in mind
 - Sable/Aeronautics support: wind optionally pushes flying contraptions (may become a separate mod)
