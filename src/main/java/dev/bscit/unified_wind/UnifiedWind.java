@@ -6,6 +6,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -22,6 +24,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RenderFrameEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.joml.SimplexNoise;
@@ -35,6 +39,9 @@ public class UnifiedWind
     private static final Logger LOGGER = LogUtils.getLogger();
 
     private static final boolean SIMPLECLOUDS_ENABLED = ModList.get().isLoaded("simpleclouds");
+
+    private static float clientStrength;
+    private static float clientVariance;
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
@@ -147,6 +154,15 @@ public class UnifiedWind
                 directionVariance = config.wind.rain.directionVariance;
             }
         }
+        if(level.isClientSide())
+        {
+            // interpolate between newly calculated value and global client value by distance to prevent weird issues
+            var camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+            var targetPos = new Vec3(x, y, z);
+            var interp = (float)(Math.min(targetPos.subtract(camPos).length(), 32) / 32);
+            variance = Mth.lerp(clientVariance, variance, interp);
+            strength = Mth.lerp(clientStrength, strength, interp);
+        }
         float multiplier = config.wind.yLevelAdjustment ? yLevelWindMultiplier(y) : 0.0F;
         float dir = (float)(Math.PI * 4 * SimplexNoise.noise(
             (float)x * directionVariance,
@@ -233,15 +249,74 @@ public class UnifiedWind
         LOGGER.info("HELLO from server starting");
     }
 
+    private static float expDecay(float a, float b, float decay, float dt)
+    {
+        return (float)(b+(a-b)*Math.pow(Math.E, -decay*dt));
+    }
+
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
     public static class ClientModEvents
     {
+        private static float clientVarianceInterp;
+        private static float clientStrengthInterp;
+        private static float clientVarianceOld;
+        private static float clientStrengthOld;
+
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
+        }
+
+        @SubscribeEvent
+        public static void onTick(ClientTickEvent.Pre event)
+        {
+            ClientLevel level = Minecraft.getInstance().level;
+            if(level == null)
+                return;
+
+            var posD = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+            var pos = BlockPos.containing(posD);
+            var hPos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos);
+            // annoying and laggy fix :/
+            if(level.getBlockState(hPos).getBlock() instanceof PowderSnowBlock)
+                hPos = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE, pos);
+            hPos = new BlockPos(hPos.getX(), Math.max(pos.getY(), hPos.getY()), hPos.getZ());
+
+            CommonConfig config = CommonConfig.get();
+            float variance = config.wind.base.strengthVariance;
+            float strength = config.wind.base.strength;
+            if(level.isRainingAt(hPos))
+            {
+                float mix = level.getRainLevel(1);
+                if(level.isThundering() || SIMPLECLOUDS_ENABLED)
+                {
+                    mix = level.getThunderLevel(1);
+                    if(SIMPLECLOUDS_ENABLED)
+                        mix = SimpleCloudsBridge.getRainLevel(posD.x, posD.y, posD.z, level);
+                    variance = Mth.lerp(config.wind.rain.strengthVariance, config.wind.storm.strengthVariance, Math.clamp(mix, 0, 1));
+                    strength = Mth.lerp(config.wind.rain.strength, config.wind.storm.strength, Math.clamp(mix, 0, 1));
+                }
+                else
+                {
+                    variance = Mth.lerp(config.wind.base.strengthVariance, config.wind.rain.strengthVariance, Math.clamp(mix, 0, 1));
+                    strength = Mth.lerp(config.wind.base.strength, config.wind.rain.strength, Math.clamp(mix, 0, 1));
+                }
+            }
+
+            clientVarianceOld = clientVarianceInterp;
+            clientStrengthOld = clientStrengthInterp;
+            clientVarianceInterp = expDecay(clientVarianceInterp, variance, 0.4f, 1/20f);
+            clientStrengthInterp = expDecay(clientStrengthInterp, strength, 0.4f, 1/20f);
+        }
+
+        @SubscribeEvent
+        public static void onRender(RenderFrameEvent.Pre event)
+        {
+            clientVariance = Mth.lerp(clientVarianceOld, clientVarianceInterp, event.getPartialTick().getRealtimeDeltaTicks());
+            clientStrength = Mth.lerp(clientStrengthOld, clientStrengthInterp, event.getPartialTick().getRealtimeDeltaTicks());
         }
     }
 }
