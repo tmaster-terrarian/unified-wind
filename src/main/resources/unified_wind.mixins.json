@@ -20,6 +20,9 @@
         "client.burnt.BurntParticleMixin",
         "client.fallingleaves.FallingLeafParticleMixin",
         "client.grassiergrass.GrassConfigMixin",
+        "client.particular.CuboidParticleMixin",
+        "client.particular.WaterSplashParticleMixin",
+        "client.particular.LeafParticleMixin",
         "client.visuality.VisualityParticleMixin"
     ],
     "injectors": {
