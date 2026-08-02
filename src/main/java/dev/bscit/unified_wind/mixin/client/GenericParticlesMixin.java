@@ -12,7 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
     CampfireSmokeParticle.class,
     PlayerCloudParticle.class,
     FallingDustParticle.class,
-    LavaParticle.class
+    LavaParticle.class,
+    WaterDropParticle.class,
 })
 public class GenericParticlesMixin
 {
