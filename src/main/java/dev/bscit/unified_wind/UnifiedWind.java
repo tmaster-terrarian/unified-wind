@@ -110,6 +110,8 @@ public class UnifiedWind
     // particle rain's wind is very very cool
     public static Vector3f getWind(double x, double y, double z, Level level)
     {
+        if(level == null)
+            return new Vector3f();
         level.getProfiler().push("uw:getWind");
         if (!isWindy(x, y, z, level))
         {
@@ -190,6 +192,7 @@ public class UnifiedWind
         return isWindy(x, y, z, Minecraft.getInstance().level);
     }
 
+    // only safely callable on client side
     public static Vector3f getWind(double x, double y, double z)
     {
         return getWind(x, y, z, Minecraft.getInstance().level);
@@ -211,6 +214,7 @@ public class UnifiedWind
         return getAngle(dir.x, dir.z);
     }
 
+    // only safely callable on client side
     public static double getWindAngle(double x, double y, double z)
     {
         return getWindAngle(x, y, z, Minecraft.getInstance().level);
@@ -222,11 +226,13 @@ public class UnifiedWind
         return (float)Mth.clamp((y - (double)transitionStart) / (double)transitionDistance, (double)0.0F, (double)1.0F);
     }
 
+    // only safely callable on client side
     public static void applyWindToParticle(Particle particle, boolean forced)
     {
         applyWindToParticleWithUnknownType(particle, forced);
     }
 
+    // only safely callable on client side
     public static void applyWindToParticleWithUnknownType(Object particle, boolean forced)
     {
         var p = (ParticleAccessor)particle;
