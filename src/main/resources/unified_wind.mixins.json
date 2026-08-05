@@ -7,7 +7,6 @@
         "accessor.WindVaneBlockTileAccessor",
         "burnt.PlumRiseTickProcedureMixin",
         "burnt.WindWakerProcedureMixin",
-        "client.supplementaries.WindVaneBlockTileRendererMixin",
         "particlerain.ParticleRainMixin",
         "simpleclouds.CloudManagerMixin",
         "sootychimneys.WindDataMixin",
@@ -25,7 +24,8 @@
         "client.particular.CuboidParticleMixin",
         "client.particular.LeafParticleMixin",
         "client.particular.WaterSplashParticleMixin",
-        "client.visuality.VisualityParticleMixin"
+        "client.visuality.VisualityParticleMixin",
+        "client.supplementaries.WindVaneBlockTileRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1
