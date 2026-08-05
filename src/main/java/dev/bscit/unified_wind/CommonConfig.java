@@ -79,6 +79,9 @@ public class CommonConfig extends PartitioningSerializer.GlobalData
 
         @ConfigEntry.Gui.Tooltip
         public boolean particular = true;
+
+        @ConfigEntry.Gui.Tooltip
+        public boolean supplementaries = true;
     }
 
     public static class WindSettings

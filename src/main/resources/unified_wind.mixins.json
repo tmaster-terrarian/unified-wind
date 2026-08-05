@@ -4,8 +4,10 @@
     "package": "dev.bscit.unified_wind.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
+        "accessor.WindVaneBlockTileAccessor",
         "burnt.PlumRiseTickProcedureMixin",
         "burnt.WindWakerProcedureMixin",
+        "client.supplementaries.WindVaneBlockTileRendererMixin",
         "particlerain.ParticleRainMixin",
         "simpleclouds.CloudManagerMixin",
         "sootychimneys.WindDataMixin",
@@ -21,8 +23,8 @@
         "client.fallingleaves.FallingLeafParticleMixin",
         "client.grassiergrass.GrassConfigMixin",
         "client.particular.CuboidParticleMixin",
-        "client.particular.WaterSplashParticleMixin",
         "client.particular.LeafParticleMixin",
+        "client.particular.WaterSplashParticleMixin",
         "client.visuality.VisualityParticleMixin"
     ],
     "injectors": {

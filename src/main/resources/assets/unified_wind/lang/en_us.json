@@ -42,5 +42,7 @@
     "text.autoconfig.unified_wind.option.compat.visuality": "Visuality",
     "text.autoconfig.unified_wind.option.compat.visuality.@Tooltip": "When enabled, most particles added by Visuality will follow unified wind.",
     "text.autoconfig.unified_wind.option.compat.particular": "Particular",
-    "text.autoconfig.unified_wind.option.compat.particular.@Tooltip": "When enabled, most particles added by Particular will follow unified wind."
+    "text.autoconfig.unified_wind.option.compat.particular.@Tooltip": "When enabled, most particles added by Particular will follow unified wind.",
+    "text.autoconfig.unified_wind.option.compat.supplementaries": "Supplementaries",
+    "text.autoconfig.unified_wind.option.compat.supplementaries.@Tooltip": "When enabled, the Wind Vane block added by Supplementaries will follow unified wind. Due to how the implementation works, this also changes the Wind Charge animation for Wind Vanes."
 }
