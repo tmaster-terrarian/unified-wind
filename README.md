@@ -19,6 +19,8 @@ Currently supported mods:
 - [Simple Clouds](https://modrinth.com/mod/simple-clouds)
 - [Falling Leaves](https://modrinth.com/mod/fallingleaves)
 - [Grassier Grass](https://modrinth.com/mod/grassier-grass)
+- [Visuality: Reforged](https://modrinth.com/mod/visuality-forge)
+- [Particular Reforged](https://modrinth.com/mod/particular-reforged)
 - ...and more to come (please feel free to suggest any!!)
 
 Mods that will never be supported (and therefore may be broken):
